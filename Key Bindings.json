@@ -1,0 +1,3 @@
+[
+      { "keys": ["F3"], "command": "open_folder_in_vscode" }
+]
