@@ -1,7 +1,7 @@
 from fman import DirectoryPaneCommand
-from fman import show_alert
-import subprocess
+from subprocess import Popen
 
 class OpenFolderInVSCode(DirectoryPaneCommand):
     def __call__(self):
-        subprocess.Popen(['/usr/local/bin/code', self.pane.get_path()], shell=True)
+        path = self.pane.get_path()
+        Popen('/usr/local/bin/code "%s"' % path, shell=True)
