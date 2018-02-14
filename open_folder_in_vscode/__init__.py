@@ -9,11 +9,18 @@ class OpenFolderInVSCode(DirectoryPaneCommand):
     unix_exe_path = '/usr/local/bin/code'
 
     def __call__(self):
-        path = self.pane.get_path()
-        # Convert path to one that the OS should understand (stripping 'file://' prefix and normalizing the path separator).
-        path = as_human_readable(path)
+        paths = self.get_file_paths()
         exe_path = self.get_exe_path()
-        Popen('{} "{}"'.format(exe_path, path), shell=True)
+
+        args = [exe_path]
+        args.extend(paths)
+        Popen(args, shell=True)
+
+    def get_file_paths(self):
+        selection = self.pane.get_selected_files()
+        if selection:
+            return [as_human_readable(p) for p in selection]
+        return [as_human_readable(self.pane.get_path())]
 
     def get_exe_path(self):
         # Use (default?) unix path if it exists
